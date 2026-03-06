@@ -22,8 +22,7 @@ html, body {
     radial-gradient(circle at top left, rgba(95, 126, 255, 0.10), transparent 30%),
     radial-gradient(circle at top right, rgba(180, 120, 255, 0.10), transparent 28%),
     linear-gradient(180deg, #071019 0%, #04070a 100%);
-  overflow-y: auto;   /* allow scrolling */
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: var(--text);
 }
@@ -31,10 +30,6 @@ html, body {
 body.modalOpen {
   position: fixed;
   width: 100%;
-}
-
-body.appRunning {
-  overflow: hidden;
 }
 
 video {
@@ -54,7 +49,7 @@ canvas {
   inset: 0;
   z-index: 50;
   display: flex;
-  align-items: flex-start;   /* key fix */
+  align-items: center;
   justify-content: center;
   padding: 20px;
   overflow-y: auto;
@@ -73,7 +68,6 @@ canvas {
   padding: 28px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
-  margin: 12px 0;
 }
 
 .welcomeEyebrow {
@@ -240,14 +234,6 @@ canvas {
 
 .modePill {
   font-weight: 700;
-
-  /* make it look like a label instead of a button */
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.85);
-
-  cursor: default;
-  pointer-events: none;   /* ensures it cannot be clicked */
 }
 
 .subtlePill {
@@ -684,213 +670,4 @@ svg.learnSvg {
 
 .controlsCollapsed {
   width: fit-content;
-}
-
-/* ---------- Better mobile layout ---------- */
-@media (max-width: 700px) {
-  .topbar {
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    gap: 8px;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .topbarLeft,
-  .topbarRight {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .topbarLeft > *,
-  .topbarRight > * {
-    flex: 0 0 auto;
-  }
-
-  .pill,
-  .pill.button {
-    font-size: 13px;
-    padding: 10px 12px;
-    min-height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modePill {
-    max-width: 100%;
-    white-space: normal;
-    line-height: 1.2;
-  }
-
-  .status {
-    top: 108px;
-    left: 8px;
-    right: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    border-radius: 12px;
-  }
-
-  .legend {
-    top: 170px;
-    left: 8px;
-    width: min(220px, calc(100vw - 16px));
-    padding: 10px 12px;
-    border-radius: 12px;
-  }
-
-  .controls {
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    padding: 12px;
-    border-radius: 18px;
-    max-width: none;
-  }
-
-  .controlsCollapsed {
-    min-width: 0;
-    width: auto;
-  }
-
-  .panelHeader {
-    align-items: center;
-    gap: 8px;
-  }
-
-  .panelHeaderButtons {
-    gap: 6px;
-  }
-
-  .panelTitle {
-    font-size: 16px;
-  }
-
-  .panelSubtitle {
-    font-size: 12px;
-  }
-
-  .ghostBtn,
-  .primaryBtn,
-  .secondaryBtn {
-    min-height: 42px;
-    padding: 10px 12px;
-    font-size: 14px;
-  }
-
-  .controlsBody {
-    max-height: min(42vh, 360px);
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-
-  .row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  .row.inline {
-    grid-template-columns: 1fr auto;
-    align-items: center;
-  }
-
-  label {
-    font-size: 14px;
-  }
-
-  .labelHint {
-    font-size: 11px;
-  }
-
-  select {
-    min-height: 46px;
-    font-size: 16px; /* prevents iPhone zoom on focus */
-    padding: 12px 14px;
-  }
-
-  input[type="range"] {
-    min-height: 32px;
-  }
-
-  input[type="checkbox"] {
-    transform: scale(1.25);
-  }
-
-  .hintBox {
-    padding: 10px 12px;
-    border-radius: 14px;
-  }
-
-  .welcomeScreen {
-    padding: 12px;
-  }
-
-  .welcomeCard {
-    padding: 18px;
-    border-radius: 20px;
-    margin: 0 auto;
-  }
-
-  .welcomeCard h1 {
-    font-size: clamp(26px, 8vw, 36px);
-  }
-
-  .welcomeLead {
-    font-size: 15px;
-    line-height: 1.5;
-  }
-
-  .welcomeGrid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .infoCard,
-  .miniPanel,
-  .stepsBox {
-    padding: 14px;
-    border-radius: 14px;
-  }
-
-  .welcomeActions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .welcomeActions .primaryBtn,
-  .welcomeActions .secondaryBtn {
-    width: 100%;
-  }
-
-  .modalBackdrop {
-    padding: 10px;
-  }
-
-  .modal {
-    width: 100%;
-    max-height: calc(100dvh - 20px);
-    border-radius: 16px;
-  }
-
-  .modalHeader {
-    padding: 12px 12px;
-  }
-
-  .modalTitle {
-    font-size: 16px;
-  }
-
-  .modalBody {
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .learnGrid {
-    grid-template-columns: 1fr;
-  }
 }
