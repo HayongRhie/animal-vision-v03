@@ -881,8 +881,6 @@ precision mediump float;
 uniform sampler2D tex;
 uniform sampler2D prevTex;
 uniform vec2 texelSize;
-uniform vec2 canvasSize;
-uniform vec2 videoSize;
 
 uniform int mode;
 uniform float strength;
@@ -891,25 +889,6 @@ uniform float split;
 uniform int compareEnabled;
 
 varying vec2 uv;
-
-vec2 coverUV(vec2 uv0, vec2 srcSize, vec2 dstSize) {
-  float srcAspect = srcSize.x / srcSize.y;
-  float dstAspect = dstSize.x / dstSize.y;
-
-  vec2 uv2 = uv0;
-
-  if (srcAspect > dstAspect) {
-    // source is wider than destination: crop left/right
-    float scale = dstAspect / srcAspect;
-    uv2.x = (uv0.x - 0.5) * scale + 0.5;
-  } else {
-    // source is taller than destination: crop top/bottom
-    float scale = srcAspect / dstAspect;
-    uv2.y = (uv0.y - 0.5) * scale + 0.5;
-  }
-
-  return uv2;
-}
 
 float luma(vec3 rgb) { return dot(rgb, vec3(0.299, 0.587, 0.114)); }
 
@@ -1135,8 +1114,7 @@ vec3 deepSeaFishConcept(sampler2D t, vec2 uv0, vec3 rgb, float amt){
 }
 
 void main() {
-  vec2 fitUV = coverUV(uv, videoSize, canvasSize);
-  vec3 rgb = texture2D(tex, fitUV).rgb;
+  vec3 rgb = texture2D(tex, uv).rgb;
 
   bool isLeftHuman = (compareEnabled == 1) && (uv.x < split);
   vec3 result = rgb;
@@ -1146,8 +1124,8 @@ void main() {
     else if (mode == 1) result = mix(rgb, mammalDichromat(rgb), clamp(strength, 0.0, 1.0));
     else if (mode == 2) result = beeConcept(rgb, uvIntensity);
     else if (mode == 3) result = birdConcept(rgb, strength, uvIntensity);
-    else if (mode == 4) result = dragonflyConcept(tex, prevTex, fitUV, strength, uvIntensity);
-    else if (mode == 5) result = deepSeaFishConcept(tex, fitUV, rgb, strength);
+    else if (mode == 4) result = dragonflyConcept(tex, prevTex, uv, strength, uvIntensity);
+    else if (mode == 5) result = deepSeaFishConcept(tex, uv, rgb, strength);
     else if (mode == 6) result = monoContrast(rgb, strength);
     else if (mode == 7) result = snakeThermal(rgb, strength, uvIntensity);
     else if (mode == 8) result = mantisConcept(rgb, strength);
@@ -1325,10 +1303,6 @@ function render() {
   }
 
   gl.uniform2f(uTexel, 1.0 / canvas.width, 1.0 / canvas.height);
-  gl.uniform2f(uCanvasSize, canvas.width, canvas.height);
-  const vw = video.videoWidth || canvas.width;
-  const vh = video.videoHeight || canvas.height;
-  gl.uniform2f(uVideoSize, vw, vh);
 
   gl.uniform1i(uMode, parseInt(modeEl?.value ?? "0", 10));
   gl.uniform1f(uStrength, parseFloat(strengthEl?.value ?? "0.85"));
