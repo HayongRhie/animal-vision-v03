@@ -90,6 +90,7 @@ function showAppUI() {
   if (controls) {
     controls.classList.remove("controlsCollapsed");
   }
+  updateControlsButton();
   document.body.classList.add("appRunning");
 }
 
@@ -105,17 +106,22 @@ function resetControls() {
   setTimeout(() => setStatus("", false), 1400);
 }
 
-function toggleControls() {
+function updateControlsButton() {
   const controls = document.getElementById("controls");
   const btn = document.getElementById("toggleControlsBtn");
+  if (!controls || !btn) return;
+
+  btn.textContent = controls.classList.contains("controlsCollapsed")
+    ? "Show"
+    : "Hide";
+}
+
+function toggleControls() {
+  const controls = document.getElementById("controls");
+  if (!controls) return;
 
   controls.classList.toggle("controlsCollapsed");
-
-  if (controls.classList.contains("controlsCollapsed")) {
-    btn.textContent = "Show";
-  } else {
-    btn.textContent = "Hide";
-  }
+  updateControlsButton();
 }
 
 function escapeHtml(str) {
@@ -770,7 +776,6 @@ safeOn(learnBtn, "click", () => {
 
 safeOn(resetBtn, "click", resetControls);
 safeOn(toggleControlsBtn, "click", toggleControls);
-safeOn(collapseControlsBtn, "click", toggleControls);
 
 /* ---------- UI plumbing ---------- */
 
@@ -844,6 +849,8 @@ function updateUIForMode() {
 }
 
 safeOn(modeEl, "change", updateUIForMode);
+
+
 
 /* ---------- WebGL ---------- */
 
@@ -1222,6 +1229,7 @@ gl.uniform1i(uPrevTex, 1);
 resize();
 updateCompareUI();
 updateUIForMode();
+updateControlsButton();
 
 /* ---------- Camera ---------- */
 
