@@ -15,6 +15,7 @@ const resetBtn = $("resetBtn");
 const toggleControlsBtn = $("toggleControlsBtn");
 const collapseControlsBtn = $("collapseControlsBtn");
 const controls = $("controls");
+const homeBtn = $("homeBtn");
 
 const modeEl = $("mode");
 const strengthEl = $("strength");
@@ -62,7 +63,6 @@ function goHome() {
   setStatus("", false);
   document.body.classList.add("appRunning");
 }
-safeOn(homeBtn, "click", goHome);
 
 function setStatus(html, show = true) {
   if (!statusEl) return;
@@ -77,6 +77,7 @@ function safeOn(el, event, handler) {
   }
   el.addEventListener(event, handler);
 }
+safeOn(homeBtn, "click", goHome);
 
 function showAppUI() {
   if (appShell) {
@@ -298,11 +299,6 @@ const INTRO_GUIDE_HTML = `
 This project is designed as a teaching tool. Some visual modes are simplified conceptual demonstrations rather than literal reproductions.
 </div>
 `;
-document
-  .getElementById("toggleControlsBtn")
-  .addEventListener("click", toggleControls);
-
-const homeBtn = $("homeBtn");
 
 const MODE_INFO = {
   0: {
