@@ -60,6 +60,7 @@ function goHome() {
   welcomeScreen.style.display = "flex";
 
   setStatus("", false);
+  document.body.classList.add("appRunning");
 }
 safeOn(homeBtn, "click", goHome);
 
@@ -88,6 +89,7 @@ function showAppUI() {
   if (controls) {
     controls.classList.remove("controlsCollapsed");
   }
+  document.body.classList.add("appRunning");
 }
 
 function resetControls() {
